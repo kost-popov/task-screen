@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'task-only-for-screen';
+  mobile = 600;
+  tablet = 800;
+  desktop = 1024;
 }
