@@ -15,7 +15,7 @@ export class OnlyForScreenDirective {
   ) {}
 
   @Input('onlyForScreen') set onlyForScreen(screen: number) {
-    if (screen === this.screenService.viewWidth) {
+    if (screen === this.screenService.screen) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();

@@ -1,3 +1,10 @@
 <span *onlyForScreen = "desktop">shown on big screens</span>
 <span *onlyForScreen = "tablet">shown on middle screens</span>
 <span *onlyForScreen = "mobile">shown on small screens</span>
+
+<hr>
+
+<span *ngIf="screenService.screen===screenService.config.desktop">shown on big screens</span>
+<span *ngIf="screenService.screen===screenService.config.tablet">shown on middle screens</span>
+<span *ngIf="screenService.screen===screenService.config.mobile">shown on small screens</span>
+

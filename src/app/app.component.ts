@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ScreenService} from './screen.service';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  mobile = 600;
-  tablet = 800;
-  desktop = 1024;
+  constructor(private screenService: ScreenService) {}
+
+  mobile = this.screenService.config.mobile;
+  tablet = this.screenService.config.tablet;
+  desktop = this.screenService.config.desktop;
 }
