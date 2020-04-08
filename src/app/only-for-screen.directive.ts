@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import {Directive, ElementRef, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import {ScreenService} from './screen.service';
 
 @Directive({
@@ -15,6 +15,7 @@ export class OnlyForScreenDirective {
   ) {}
 
   @Input('onlyForScreen') set onlyForScreen(screen: number) {
+    console.log('OnlyForScreenDirective');
     if (screen === this.screenService.screen) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {

@@ -13,3 +13,4 @@ export class AppComponent {
   tablet = this.screenService.config.tablet;
   desktop = this.screenService.config.desktop;
 }
+

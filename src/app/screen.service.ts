@@ -1,4 +1,4 @@
-import {HostListener, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {fromEvent, Observable, Subscription} from 'rxjs';
 
 interface IConfig {
@@ -11,7 +11,7 @@ interface IConfig {
   providedIn: 'root'
 })
 export class ScreenService {
-  screen = 1024;
+  screen: number;
   config: IConfig = {
     mobile: 600,
     tablet: 800,
@@ -20,12 +20,6 @@ export class ScreenService {
 
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    console.log(window.innerWidth);
-    console.log('test');
-  }
 
   constructor() {
     console.log(window.innerWidth);
@@ -56,10 +50,8 @@ export class ScreenService {
 
       if (newScreen !== this.screen) {
         this.screen = newScreen;
+        window.location.reload();
       }
-
-      console.log(this.screen);
-
     });
   }
 }
