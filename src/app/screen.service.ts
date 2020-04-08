@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {fromEvent, Observable, Subscription} from 'rxjs';
+import {filter, share} from 'rxjs/operators';
 
 interface IConfig {
   mobile: number;
@@ -18,8 +19,7 @@ export class ScreenService {
     desktop: 1024,
   };
 
-  resizeObservable$: Observable<Event>;
-  resizeSubscription$: Subscription;
+  changeScreenObservable$: Observable<Event>;
 
   constructor() {
     console.log(window.innerWidth);
@@ -33,25 +33,50 @@ export class ScreenService {
       this.screen = this.config.desktop;
     }
 
-    this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-      const newWidth = (evt.target as any).innerWidth;
-      let newScreen: number;
+    this.changeScreenObservable$ = fromEvent(window, 'resize').pipe(
+      filter((evt) => {
+        console.log('filter pass');
+        const newWidth = (evt.target as any).innerWidth;
+        let newScreen: number;
 
-      if (newWidth < this.config.mobile) {
-        newScreen = this.config.mobile;
-      }
-      if (this.config.mobile <= newWidth && newWidth < this.config.tablet) {
-        newScreen = this.config.tablet;
-      }
-      if (this.config.tablet <= newWidth) {
-        newScreen = this.config.desktop;
-      }
+        if (newWidth < this.config.mobile) {
+          newScreen = this.config.mobile;
+        }
+        if (this.config.mobile <= newWidth && newWidth < this.config.tablet) {
+          newScreen = this.config.tablet;
+        }
+        if (this.config.tablet <= newWidth) {
+          newScreen = this.config.desktop;
+        }
 
-      if (newScreen !== this.screen) {
-        this.screen = newScreen;
-        window.location.reload();
-      }
-    });
+        if (newScreen !== this.screen) {
+          this.screen = newScreen;
+          return true;
+          //window.location.reload();
+        }
+        return false;
+     }),
+     share(),
+    );
+
+    // this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
+    //   const newWidth = (evt.target as any).innerWidth;
+    //   let newScreen: number;
+    //
+    //   if (newWidth < this.config.mobile) {
+    //     newScreen = this.config.mobile;
+    //   }
+    //   if (this.config.mobile <= newWidth && newWidth < this.config.tablet) {
+    //     newScreen = this.config.tablet;
+    //   }
+    //   if (this.config.tablet <= newWidth) {
+    //     newScreen = this.config.desktop;
+    //   }
+    //
+    //   if (newScreen !== this.screen) {
+    //     this.screen = newScreen;
+    //     //window.location.reload();
+    //   }
+    // });
   }
 }
